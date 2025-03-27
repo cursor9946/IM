@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.inventory.management</groupId>
+		<artifactId>inventorymanagement</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>inventorymanagement-app</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Inventory Management Service</name>
+	<description>inventory management service</description>
+	<properties>
+		<startup.class>com.inventory.management.InventoryManagementStarter</startup.class>
+		<output.dir>${project.parent.basedir}/target/docker</output.dir>	
+	</properties>
+
+	<dependencies>
+		
+		
+		<dependency>
+			<groupId>com.inventory.management</groupId>
+			<artifactId>inventorymanagement-api</artifactId>
+			<version>${inventorymanagement.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.inventory.management</groupId>
+			<artifactId>inventorymanagement-service</artifactId>
+			<version>${inventorymanagement.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+<build>
+		<plugins>	
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<outputDirectory>${output.dir}</outputDirectory>
+					<addResources>true</addResources>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.inventory.management.InventoryManagementStarter</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+				<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+		<execution>
+			<id>copy-resources</id>
+			<phase>validate</phase>
+			<goals>
+				<goal>copy-resources</goal>
+			</goals>
+			<configuration>
+				<outputDirectory>${output.dir}</outputDirectory>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<excludes>
+						<exclude>*.properties</exclude>
+						<exclude>*.xml</exclude>
+					</excludes>
+					</resource>
+				</resources>
+			</configuration>
+		</execution>
+	</executions>
+</plugin> 
+		</plugins>
+	</build>
+</project>

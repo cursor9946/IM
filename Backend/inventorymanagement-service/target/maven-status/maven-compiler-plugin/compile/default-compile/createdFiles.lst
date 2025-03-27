@@ -1,0 +1,5 @@
+com/inventory/management/controller/impl/controllImpl.class
+com/inventory/management/dao/controlDao.class
+com/inventory/management/service/contrllService.class
+com/inventory/management/service/impl/contrllServiceimpl.class
+com/inventory/management/dao/impl/controllDaoImpl.class
