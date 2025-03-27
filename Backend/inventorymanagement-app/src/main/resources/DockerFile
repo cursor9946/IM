@@ -1,12 +1,26 @@
-# Build stage
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# Use the official Maven image to build the application
+FROM maven:3.8.6-eclipse-temurin-17 AS build
+
+# Set the working directory
 WORKDIR /app
-COPY . /app
+
+# Copy the entire project into the container
+COPY . .
+
+# Build the project and skip tests
 RUN mvn clean package -DskipTests
 
-# Run stage
+# Use the official OpenJDK image to run the application
 FROM eclipse-temurin:17-jdk
+
+# Set the working directory
 WORKDIR /app
-COPY --from=build /app/target/docker/ inventorymanagement-app-1.0.0.jar  app.jar
+
+# Copy the built JAR file from the previous stage
+COPY --from=build /app/Backend/inventorymanagement-app/target/inventorymanagement-app-1.0.0.jar app.jar
+
+# Expose the application port
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
