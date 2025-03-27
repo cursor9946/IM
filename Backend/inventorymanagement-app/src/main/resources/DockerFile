@@ -1,26 +1,16 @@
-# Use the official Maven image to build the application
-FROM maven:3.8.6-eclipse-temurin-17 AS build
+FROM eclipse-temurin:17-jdk AS build
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-# Copy the entire project into the container
-COPY . .
+# Copy and extract the tar file
+COPY target/docker/inventorymanagement-app-1.0.0.tar /app/
+RUN tar -xvf inventorymanagement-app-1.0.0.tar
 
-# Build the project and skip tests
-RUN mvn clean package -DskipTests
+# Find the extracted JAR file (modify based on actual extraction result)
+RUN mv $(find . -name "*.jar") app.jar
 
-# Use the official OpenJDK image to run the application
-FROM eclipse-temurin:17-jdk
+# Start application
+CMD ["java", "-jar", "app.jar"]
 
-# Set the working directory
-WORKDIR /app
 
-# Copy the built JAR file from the previous stage
-COPY --from=build /app/Backend/inventorymanagement-app/target/inventorymanagement-app-1.0.0.jar app.jar
-
-# Expose the application port
-EXPOSE 8080
-
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
