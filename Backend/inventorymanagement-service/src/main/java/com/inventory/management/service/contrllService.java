@@ -1,8 +1,10 @@
 package com.inventory.management.service;
 
+import java.util.List;
+
 public interface contrllService {
 
-    String hiii();
+    List<Object[]> login();
 
     
 } 

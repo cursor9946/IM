@@ -19,7 +19,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 # Copy the built JAR file from the previous stage
-COPY --from=build /build/inventorymanagement-app/target/inventorymanagement-app-1.0.0.jar app.jar
+COPY --from=build /build/target/docker/inventorymanagement-app-1.0.0.jar app.jar
 
 # Create a non-root user (Corrected for Debian-based images)
 RUN groupadd spring && useradd -m -g spring spring

@@ -1,0 +1,25 @@
+# Stage 1: Build the application
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+
+# Copy only pom.xml first to leverage Docker cache
+COPY pom.xml .
+
+# Copy the entire project source code
+COPY . . 
+
+# Build the project
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application
+FROM eclipse-temurin:21-jdk  # Use Java 21 for runtime consistency
+WORKDIR /app
+
+# Copy the built JAR file from the previous stage
+COPY --from=build /app/Backend/target/docker/inventorymanagement-app-1.0.0.jar app.jar
+
+# Expose application port
+EXPOSE 8080
+
+# Run the application
+CMD ["java", "-jar", "app.jar"]
