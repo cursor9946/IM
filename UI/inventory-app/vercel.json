@@ -1,1 +1,0 @@
-{"version": 2,"builds": [{"src": "dist/inventory-app/browser/**","use": "@vercel/static"}],"routes": [{"src": "/(.*)","dest": "dist/inventory-app/browser/index.html"}]}
